@@ -22,10 +22,12 @@ exports.assignRole = async (userId, roleId) => {
     if (!user) {
         throw new Error('User not found');
     }
+
     const role = await Role.findById(roleId);
     if (!role) {
         throw new Error('Role not found');
     }
+
     user.roles.push(role);
     await user.save();
     return user;

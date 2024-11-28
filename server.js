@@ -30,21 +30,20 @@ app.use(cors());
 app.use(helmet());
 app.use(xss());
 app.use(mongoSanitize());
-app.use(hpp()); // Prevent HTTP Parameter Pollution
+app.use(hpp());
 
-// Rate limiting
 const limiter = rateLimit({
-  windowMs: 10 * 60 * 1000, // 10 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
+  windowMs: 10 * 60 * 1000,
+  max: 100, 
   message: 'Too many requests from this IP, please try again later.'
 });
 app.use(limiter);
 
-// Slow down requests after a certain limit to mitigate DDoS attacks
+
 const speedLimiter = slowDown({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  delayAfter: 100, // allow 100 requests per 15 minutes, then...
-  delayMs: 500 // begin adding 500ms of delay per request above 100
+  windowMs: 15 * 60 * 1000, 
+  delayAfter: 100,
+  delayMs: 500
 });
 app.use(speedLimiter);
 
